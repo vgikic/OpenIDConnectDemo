@@ -17,9 +17,11 @@ class FetchDataViewModel {
     }
 
     private getData = async () => {
-        debugger;
         var test = await SampleDataService.weatherForecasts();
-        debugger;
+    }
+    private logout = async () => {
+        await SampleDataService.logout();
+        window.location.href = "/";
     }
 }
 

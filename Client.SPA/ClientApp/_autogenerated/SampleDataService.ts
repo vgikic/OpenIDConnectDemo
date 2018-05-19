@@ -7,9 +7,14 @@ export class SampleDataService {
     
     public static Url_WeatherForecasts = () => baseUrl + `api/SampleData/weatherForecasts`;
     
+    public static Url_Logout = () => baseUrl + `api/SampleData/logout`;
+    
  
     public static async weatherForecasts<T>( showSpinner = true, requestInit?: RequestInit) : Promise<T> {
         return fetchHelper.Get<T>(SampleDataService.Url_WeatherForecasts(), showSpinner, requestInit);
+    }
+    public static async logout<T>( showSpinner = true, requestInit?: RequestInit) : Promise<T> {
+        return fetchHelper.Get<T>(SampleDataService.Url_Logout(), showSpinner, requestInit);
     }     
 }
 

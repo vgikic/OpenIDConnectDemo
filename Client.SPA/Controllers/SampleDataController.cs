@@ -1,8 +1,8 @@
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.Threading.Tasks;
 
 namespace Client.SPA.Controllers
 {
@@ -12,7 +12,20 @@ namespace Client.SPA.Controllers
         [HttpGet("[action]")]
         public IActionResult WeatherForecasts()
         {
+            var isAdmin = User.HasClaim("role", "Admin");
+
+            if (!isAdmin)
+                return NotFound();
+
+
             return Ok(5);
+        }
+
+        [HttpGet("[action]")]
+        public async Task Logout()
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            await HttpContext.SignOutAsync("oidc");
         }
 
     }

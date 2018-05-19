@@ -1,8 +1,6 @@
 ﻿#### Nuget packages:
 	
 	- IdentityServer4
-	- Microsoft.AspNetCore.MVC.Core
-	- Microsoft.AspNetCore.StaticFiles 
 
 #### Run PowerShell script from root.
 	  iex ((New-Object System.Net.WebClient).DownloadString('https://raw.githubusercontent.com/IdentityServer/IdentityServer4.Quickstart.UI/release/get.ps1'))

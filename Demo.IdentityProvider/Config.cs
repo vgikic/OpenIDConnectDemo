@@ -22,6 +22,8 @@ namespace Demo.IdentityProvider
                     {
                         new Claim("given_name", "Frank"),
                         new Claim("family_name", "Underwood"),
+                        new Claim("role", "Admin"),
+                        new Claim("role", "User")
                     }
                 },
                 new TestUser
@@ -34,19 +36,22 @@ namespace Demo.IdentityProvider
                     {
                         new Claim("given_name", "Claire"),
                         new Claim("family_name", "Underwood"),
+                        new Claim("role", "User")
                     }
                 }
             };
         }
 
-        // Resursi vezani za user identity, OpenId resurs je required
-        // Profile resurs dodaje claimove
+        // Resources attached to user identity
+        // OpenId is required
         public static IEnumerable<IdentityResource> GetIdentityResources()
         {
             return new List<IdentityResource>
             {
                 new IdentityResources.OpenId(),
-                new IdentityResources.Profile()
+                new IdentityResources.Profile(),
+                new IdentityResource("roles","Your roles", new List<string>{"role"})
+
             };
         }
 
@@ -60,15 +65,16 @@ namespace Demo.IdentityProvider
                     ClientId = "SPA_APP",
                     ClientSecrets = { new Secret("password".Sha256()) },
                     PostLogoutRedirectUris = {"https://localhost:44347/signout-callback-oidc"},
-                    RedirectUris = { "https://localhost:44347/signin-oidc"},
+                    RedirectUris = { "https://localhost:44347/signin-oidc", ""},
                     AllowedScopes =
                     {
                         IdentityServerConstants.StandardScopes.OpenId,
-                        IdentityServerConstants.StandardScopes.Profile
+                        IdentityServerConstants.StandardScopes.Profile,
+                        "roles"
                     },
                     AllowedGrantTypes = GrantTypes.Hybrid
                 }
-    };
+            };
         }
     }
 }
