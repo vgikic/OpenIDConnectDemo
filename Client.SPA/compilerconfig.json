@@ -1,0 +1,14 @@
+﻿[
+  {
+    "outputFile": "ClientApp/css/site.css",
+    "inputFile": "ClientApp/css/site.scss"
+  },
+  {
+    "outputFile": "ClientApp/css/_common.css",
+    "inputFile": "ClientApp/css/_common.scss"
+  },
+  {
+    "outputFile": "ClientApp/css/_variables.css",
+    "inputFile": "ClientApp/css/_variables.scss"
+  }
+]
