@@ -1,15 +1,20 @@
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace Client.SPA.Controllers
 {
     public class HomeController : Controller
     {
         [Authorize]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var user = HttpContext.User.Identity;
+            // Access token that is used for API authorization
+            // Needs to be set as Bearer token for each Ajax request
+            var accessToken = await HttpContext.GetTokenAsync("access_token");
+            ViewBag.ApiAccessToken = accessToken;
             return View();
         }
 

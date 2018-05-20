@@ -4,7 +4,7 @@ export default class fetchHelper {
 
     public static EVENT_TARGET_ID = "fetch-error-event-target"; // Id of HTML element on which event listener is attached
     public static ERROR_EVENT_NAME = "fetch-error-event";
-
+    public static API_ACCESS_TOKEN; // this needs to be set in boot.ts
 
     /**
     * Loader DOM element, depends on html having an element with class _spinnerElementClassName
@@ -18,7 +18,8 @@ export default class fetchHelper {
     private static _overlayElementClassName = ".overlay";
 
     private static createHeaders = (): Headers => new Headers({
-        'Content-Type': "application/json"
+        'Content-Type': "application/json",
+        'Authorization': `Bearer ${fetchHelper.API_ACCESS_TOKEN}`
     });
 
     private static createRequestOptions = (method: string): RequestInit => {
@@ -27,7 +28,7 @@ export default class fetchHelper {
             credentials: 'include',
             headers: fetchHelper.createHeaders(),
             cache: 'default',
-            
+
         }
     }
 

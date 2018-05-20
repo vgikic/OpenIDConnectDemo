@@ -47,6 +47,7 @@ namespace Client.SPA
              {
                  options.ExpireTimeSpan = TimeSpan.FromMinutes(1);
                  options.Cookie.Name = "spa_cookie";
+                 options.AccessDeniedPath = "/access-denied";
              })
 
             .AddOpenIdConnect("oidc", options =>
@@ -62,40 +63,20 @@ namespace Client.SPA
                 // Scope
                 // - list of Claims that should be return for each user
                 // - openid is mandatory
-
                 options.Scope.Clear();
                 options.Scope.Add("openid");
                 options.Scope.Add("profile");
                 options.Scope.Add("roles");
-                //options.Scope.Add("offline_access");
+                options.Scope.Add("demoapi"); // For API Scope
 
                 options.SaveTokens = true;
-                options.Events = new Microsoft.AspNetCore.Authentication.OpenIdConnect.OpenIdConnectEvents
+                options.Events = new OpenIdConnectEvents
                 {
-                    //OnTokenValidated = tokenValidatedContext =>
-                    //{
-                    //    var identity = tokenValidatedContext.Principal.Identity
-                    //        as ClaimsIdentity;
-
-                    //    var subjectClaim = identity.Claims.FirstOrDefault(z => z.Type == "sub");
-
-                    //    var newClaimsIdentity = new ClaimsIdentity(
-                    //      tokenValidatedContext.Scheme.Name,
-                    //      "given_name",
-                    //      "role");
-
-                    //    newClaimsIdentity.AddClaim(subjectClaim);
-                    //    tokenValidatedContext = new AuthenticationTicket(
-                    //        new ClaimsPrincipal(newClaimsIdentity),
-                    //        tokenValidatedContext.Properties,
-                    //        tokenValidatedContext.Scheme.Name);
-
-                    //    return Task.FromResult(0);
-                    //},
 
                     OnUserInformationReceived = context =>
                      {
-                         if (context.User.TryGetValue(JwtClaimTypes.Role, value: out var roles)) // (@) IdentityServer returns multiple claim values as JSON arrays, which break the authentication handler https://github.com/aspnet/Security/issues/1383
+                         // (@) IdentityServer returns multiple claim values as JSON arrays, which break the authentication handler https://github.com/aspnet/Security/issues/1383
+                         if (context.User.TryGetValue(JwtClaimTypes.Role, value: out var roles))
                          {
                              var claims = new List<Claim>();
 
@@ -116,14 +97,6 @@ namespace Client.SPA
                          return Task.CompletedTask;
                      }
                 };
-                //options.ClaimActions.MapUniqueJsonKey("role", "role");
-                //options.ClaimActions.Add(new JsonKeyClaimAction("role", "role", "role"));
-
-                //options.TokenValidationParameters = new TokenValidationParameters
-                //{
-                //    NameClaimType = JwtClaimTypes.Name,
-                //    RoleClaimType = JwtClaimTypes.Role,
-                //};
             });
         }
 

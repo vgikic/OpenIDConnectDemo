@@ -42,6 +42,15 @@ namespace Demo.IdentityProvider
             };
         }
 
+        public static IEnumerable<ApiResource> GetApiResource()
+        {
+            return new List<ApiResource>
+            {
+                new ApiResource("demoapi","Demo API")
+
+            };
+        }
+
         // Resources attached to user identity
         // OpenId is required
         public static IEnumerable<IdentityResource> GetIdentityResources()
@@ -70,7 +79,8 @@ namespace Demo.IdentityProvider
                     {
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.Profile,
-                        "roles"
+                        "roles",
+                        "demoapi"
                     },
                     AllowedGrantTypes = GrantTypes.Hybrid
                 }

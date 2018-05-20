@@ -4,8 +4,11 @@ import * as ko from 'knockout';
 import { createBrowserHistory } from 'history';
 import './webpack-component-loader';
 import AppRootComponent from './components/app-root/app-root';
+import fetchHelper from './fetchHelper';
 
 var baseUrl = (window as any).baseUrl = document.getElementsByTagName('base')[0].getAttribute('href');
+var baseApiUrl = (window as any).baseApiUrl = document.getElementsByTagName('baseApiUrl')[0].getAttribute('href');
+fetchHelper.API_ACCESS_TOKEN = (window as any).apiAccessToken;
 const basename = baseUrl.substring(0, baseUrl.length - 1); // History component needs no trailing slash
 
 

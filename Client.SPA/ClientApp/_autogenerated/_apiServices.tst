@@ -5,8 +5,7 @@
 
     Template(Settings settings)
     {
-        //settings.IncludeCurrentProject().IncludeProject("WebAPI");     
-        //  settings.OutputExtension = ".tsx";
+       settings.IncludeProject("Demo.API");  
         settings.OutputFilenameFactory = (file)=> {
                         var f = file.Name.Replace("Controller", "Service");
                         f =  f.Replace(".cs", ".ts");
@@ -116,13 +115,13 @@
 
 }import fetchHelper from "../fetchHelper";
 // NOTE: the baseUrl must be an existing ambient variable (usually injected via a <script> tag in _Layout.cshtml)
-declare var baseUrl : string;
+declare var baseApiUrl : string;
 $PrintDebugInfo
 $Classes(:BaseController)[$CalculatedModelTypes[import { I$CalculatedResultTypeName } from './$CalculatedResultTypeName';
 ]
 export class $ServiceName {
     $Methods[
-    public static Url_$Name = ($Parameters(p => p.Type.IsPrimitive)[$Name: $Type][, ]) => baseUrl + `$Url`;
+    public static Url_$Name = ($Parameters(p => p.Type.IsPrimitive)[$Name: $Type][, ]) => baseApiUrl + `$Url`;
     ]
  $Methods(m=> m.Attributes.All(a => a.Name != "TypeWriterIgnore")&& m.Parameters.All(p => p.Type != "DataSourceLoadOptions"))[
     public static async $name<T>($GetAllParameters$EmitCallbacks {

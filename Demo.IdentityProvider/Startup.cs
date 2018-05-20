@@ -19,6 +19,7 @@ namespace Demo.IdentityProvider
             services.AddMvc();
             services.AddIdentityServer()
                     .AddDeveloperSigningCredential()
+                    .AddInMemoryApiResources(Config.GetApiResource())
                     .AddTestUsers(Config.GetUsers())
                     .AddInMemoryIdentityResources(Config.GetIdentityResources())
                     .AddInMemoryClients(Config.GetClients());
