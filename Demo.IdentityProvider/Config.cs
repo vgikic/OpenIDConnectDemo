@@ -1,6 +1,7 @@
 ﻿using IdentityServer4;
 using IdentityServer4.Models;
 using IdentityServer4.Test;
+using Shared;
 using System.Collections.Generic;
 using System.Security.Claims;
 
@@ -20,10 +21,11 @@ namespace Demo.IdentityProvider
 
                     Claims = new List<Claim>
                     {
-                        new Claim("given_name", "Frank"),
-                        new Claim("family_name", "Underwood"),
-                        new Claim("role", "Admin"),
-                        new Claim("role", "User")
+                        new Claim(ClaimDeclaration.GivenName, "Frank"),
+                        new Claim(ClaimDeclaration.FamilyName, "Underwood"),
+                        new Claim(ClaimDeclaration.Role, RoleType.Admin),
+                        new Claim(ClaimDeclaration.Role, RoleType.User),
+                        new Claim(ClaimDeclaration.Subscriptionlevel, SubscriptionType.Premium),
                     }
                 },
                 new TestUser
@@ -34,9 +36,11 @@ namespace Demo.IdentityProvider
 
                     Claims = new List<Claim>
                     {
-                        new Claim("given_name", "Claire"),
-                        new Claim("family_name", "Underwood"),
-                        new Claim("role", "User")
+                        new Claim(ClaimDeclaration.GivenName, "Claire"),
+                        new Claim(ClaimDeclaration.FamilyName, "Underwood"),
+                        new Claim(ClaimDeclaration.Role, RoleType.User),
+                        new Claim(ClaimDeclaration.Subscriptionlevel, SubscriptionType.Basic),
+
                     }
                 }
             };
@@ -46,8 +50,8 @@ namespace Demo.IdentityProvider
         {
             return new List<ApiResource>
             {
-                new ApiResource("demoapi","Demo API")
-
+                // Role and subscriptionlevel claims are passed to API in Access Token
+                new ApiResource("demoapi","Demo API", new List<string>{ ClaimDeclaration.Role, ClaimDeclaration.Subscriptionlevel })
             };
         }
 
@@ -59,8 +63,8 @@ namespace Demo.IdentityProvider
             {
                 new IdentityResources.OpenId(),
                 new IdentityResources.Profile(),
-                new IdentityResource("roles","Your roles", new List<string>{"role"})
-
+                new IdentityResource(ClaimDeclaration.Roles,"Your roles", new List<string>{ClaimDeclaration.Role}),
+                new IdentityResource(ClaimDeclaration.Subscriptionlevel,"Your subscription level", new List<string>{ClaimDeclaration.Subscriptionlevel})
             };
         }
 
@@ -79,8 +83,9 @@ namespace Demo.IdentityProvider
                     {
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.Profile,
-                        "roles",
-                        "demoapi"
+                        ClaimDeclaration.Roles,
+                        "demoapi",
+                        ClaimDeclaration.Subscriptionlevel
                     },
                     AllowedGrantTypes = GrantTypes.Hybrid
                 }

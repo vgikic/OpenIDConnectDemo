@@ -1,6 +1,9 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using Demo.API.Authorization;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
+using Shared;
 
 namespace Demo.API
 {
@@ -12,8 +15,29 @@ namespace Demo.API
         {
             services.AddCors();
             services.AddMvcCore()
-                    .AddAuthorization()
+                    .AddAuthorization(options =>
+                    {
+                        // Authorization policy based on User claims
+                        options.AddPolicy(PolicyDeclaration.IsPremiumSubscriber, policy =>
+                        {
+                            policy.RequireAuthenticatedUser();
+                            policy.RequireClaim(ClaimDeclaration.Role, RoleType.User);
+                            policy.RequireClaim(ClaimDeclaration.Subscriptionlevel, SubscriptionType.Premium);
+                        });
+
+                        options.AddPolicy(PolicyDeclaration.MustOwnRecord, policy =>
+                        {
+                            policy.RequireAuthenticatedUser();
+                            policy.AddRequirements(new MustOwnRecordRequirement());
+                        });
+
+                    })
                     .AddJsonFormatters();
+
+
+            // Custom AuthorizationHandlers need to be registered for DI
+            services.AddSingleton<IAuthorizationHandler, MustOwnRecordHandler>(); 
+
 
             services.AddAuthentication("Bearer")
                 .AddIdentityServerAuthentication(options =>
@@ -22,6 +46,7 @@ namespace Demo.API
                     options.RequireHttpsMetadata = true;
                     options.ApiName = "demoapi";
                 });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

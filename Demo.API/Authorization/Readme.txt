@@ -1,0 +1,1 @@
+﻿Example of custom claim handlers that contain all authorization logic so there is no need for checks inside API methods.

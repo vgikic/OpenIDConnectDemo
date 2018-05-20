@@ -12,6 +12,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Linq;
+using Shared;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -66,8 +67,9 @@ namespace Client.SPA
                 options.Scope.Clear();
                 options.Scope.Add("openid");
                 options.Scope.Add("profile");
-                options.Scope.Add("roles");
+                options.Scope.Add(ClaimDeclaration.Roles);
                 options.Scope.Add("demoapi"); // For API Scope
+                options.Scope.Add(ClaimDeclaration.Subscriptionlevel); 
 
                 options.SaveTokens = true;
                 options.Events = new OpenIdConnectEvents

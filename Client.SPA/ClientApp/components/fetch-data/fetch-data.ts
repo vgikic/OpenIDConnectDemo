@@ -15,7 +15,9 @@ class FetchDataViewModel {
 
     constructor() {
         // this.getData();
-        this.getApiData();
+        //this.getApiData();
+        // this.getPolicyProtectedDataAsync();
+        this.getCustomRequirementProtectedDataAsync();
     }
 
     private getData = async () => {
@@ -28,6 +30,14 @@ class FetchDataViewModel {
 
     private getApiData = async () => {
         const data = await DataService.getDataAsync();
+        console.log(data);
+    }
+    private getPolicyProtectedDataAsync = async () => {
+        const data = await DataService.getPolicyProtectedDataAsync();
+        console.log(data);
+    }
+    private getCustomRequirementProtectedDataAsync = async () => {
+        const data = await DataService.getCustomRequirementProtectedDataAsync(5);
         console.log(data);
     }
 }
