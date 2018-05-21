@@ -68,6 +68,8 @@ namespace Demo.IdentityProvider
             };
         }
 
+
+        /// <returns></returns>
         public static IEnumerable<Client> GetClients()
         {
             return new List<Client>
@@ -77,8 +79,8 @@ namespace Demo.IdentityProvider
                     ClientName ="Client.SPA",
                     ClientId = "SPA_APP",
                     ClientSecrets = { new Secret("password".Sha256()) },
-                    PostLogoutRedirectUris = {"https://localhost:44347/signout-callback-oidc"},
-                    RedirectUris = { "https://localhost:44347/signin-oidc", ""},
+                    PostLogoutRedirectUris = {$"{Parties.WebClientUrl}/signout-callback-oidc" },
+                    RedirectUris = {$"{Parties.WebClientUrl}/signin-oidc","" }, // signin-oidc is default route
                     AllowedScopes =
                     {
                         IdentityServerConstants.StandardScopes.OpenId,
@@ -87,6 +89,25 @@ namespace Demo.IdentityProvider
                         "demoapi",
                         ClaimDeclaration.Subscriptionlevel
                     },
+
+
+
+                    /// <summary>
+                    ///  TOKEN LIFETIMES
+                    /// </summary>
+                    // Time that identity token is valid for authentication (default 5min)
+                    IdentityTokenLifetime = 300,
+                    // Time that access token is valid for authorization (default 1h)
+                    // Long lived access is gained with Refresh Tokens
+                    AccessTokenLifetime = 60,
+                    RefreshTokenExpiration = TokenExpiration.Sliding,
+                    // If RefreshTokenExpiration is set to Sliding, this value is used to bump up lifetime of refresh token
+                    SlidingRefreshTokenLifetime = 1296000, 
+                    // Prevents outdated claims when access token is updated (by default claims dont change on access token update)
+                    UpdateAccessTokenClaimsOnRefresh = true,
+                    AllowOfflineAccess = true, // Must be set to true
+
+
                     AllowedGrantTypes = GrantTypes.Hybrid
                 }
             };

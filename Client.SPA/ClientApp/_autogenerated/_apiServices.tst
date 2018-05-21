@@ -116,6 +116,7 @@
 }import fetchHelper from "../fetchHelper";
 // NOTE: the baseUrl must be an existing ambient variable (usually injected via a <script> tag in _Layout.cshtml)
 declare var baseApiUrl : string;
+
 $PrintDebugInfo
 $Classes(:BaseController)[$CalculatedModelTypes[import { I$CalculatedResultTypeName } from './$CalculatedResultTypeName';
 ]

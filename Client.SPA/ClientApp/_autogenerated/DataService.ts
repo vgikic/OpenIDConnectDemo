@@ -3,6 +3,7 @@
 declare var baseApiUrl : string;
 
 
+
 export class DataService {
     
     public static Url_GetDataAsync = () => baseApiUrl + `api/Data/getDataAsync`;

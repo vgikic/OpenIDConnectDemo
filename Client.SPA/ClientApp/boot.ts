@@ -12,6 +12,10 @@ fetchHelper.API_ACCESS_TOKEN = (window as any).apiAccessToken;
 const basename = baseUrl.substring(0, baseUrl.length - 1); // History component needs no trailing slash
 
 
+var dt = '2018-05-21T07:35:45.0000000+00:00';
+var expiration = new Date(new Date(dt).setSeconds(-60));
+
+
 // Load and register the <app-root> component
 ko.components.register('app-root', AppRootComponent);
 

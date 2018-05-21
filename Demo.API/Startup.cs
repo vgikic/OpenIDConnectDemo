@@ -36,13 +36,13 @@ namespace Demo.API
 
 
             // Custom AuthorizationHandlers need to be registered for DI
-            services.AddSingleton<IAuthorizationHandler, MustOwnRecordHandler>(); 
+            services.AddSingleton<IAuthorizationHandler, MustOwnRecordHandler>();
 
 
             services.AddAuthentication("Bearer")
                 .AddIdentityServerAuthentication(options =>
                 {
-                    options.Authority = "https://localhost:44331/"; // Identity Provider
+                    options.Authority = Parties.AuthorityUrl; // Identity Provider
                     options.RequireHttpsMetadata = true;
                     options.ApiName = "demoapi";
                 });
@@ -52,7 +52,8 @@ namespace Demo.API
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            app.UseCors(options => options.WithOrigins("https://localhost:44347").AllowAnyHeader().AllowCredentials().AllowAnyMethod());
+            //app.UseCors(options => options.WithOrigins("https://localhost:44347/").AllowAnyHeader().AllowCredentials().AllowAnyMethod());
+            app.UseCors(builder => builder.WithOrigins(Parties.WebClientUrl).AllowAnyHeader().AllowAnyMethod().AllowCredentials());
             app.UseAuthentication();
             app.UseMvc();
         }

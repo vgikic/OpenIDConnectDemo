@@ -77,7 +77,7 @@
         return result;
     }
 
-}$Classes(f=> (f.Namespace.EndsWith("Asp.Net.Core.Spa.Models") || f.Namespace.EndsWith("BindingModels")) && !f.Attributes.Select(a=> a.Name.ToLower()).Contains("typewriterignore"))[$CalculatedModelTypes[import {$ClassName} from './$ClassName';
+}$Classes(f=> (f.Namespace.EndsWith("Client.SPA.DTO") || f.Namespace.EndsWith("BindingModels")) && !f.Attributes.Select(a=> a.Name.ToLower()).Contains("typewriterignore"))[$CalculatedModelTypes[import {$ClassName} from './$ClassName';
 ]$GetBaseClassIfExists[import {I$Name, $Name} from './$Name';
 ]
 //----------------------------------------------

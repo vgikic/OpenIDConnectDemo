@@ -1,10 +1,15 @@
-@{
-    ViewData["Title"] = "Home Page";
-}
+@model Client.SPA.DTO.UserDto;
 
 <app-root params="history: history, basename: basename"></app-root>
 
 @section scripts {
-    <script>window.apiAccessToken = '@ViewBag.ApiAccessToken'</script>
+    <script>
+        window.User = {
+            Token: '@Model.Token',
+            TokenExpirationTime: '@Model.TokenExpirationTime'
+        }
+    </script>
+
+    <script>window.apiAccessToken = '@Model.Token'</script>
     <script src="~/dist/main.js" asp-append-version="true"></script>
 }

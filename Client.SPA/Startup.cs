@@ -54,7 +54,7 @@ namespace Client.SPA
             .AddOpenIdConnect("oidc", options =>
             {
                 options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                options.Authority = "https://localhost:44331"; // Demo.IdentityProvider base url
+                options.Authority =  Parties.AuthorityUrl; // Demo.IdentityProvider base url
                 options.RequireHttpsMetadata = true;
                 options.GetClaimsFromUserInfoEndpoint = true;
                 options.ClientId = "SPA_APP";
@@ -69,7 +69,8 @@ namespace Client.SPA
                 options.Scope.Add("profile");
                 options.Scope.Add(ClaimDeclaration.Roles);
                 options.Scope.Add("demoapi"); // For API Scope
-                options.Scope.Add(ClaimDeclaration.Subscriptionlevel); 
+                options.Scope.Add(ClaimDeclaration.Subscriptionlevel);
+                options.Scope.Add("offline_access"); // Needed by refresh token
 
                 options.SaveTokens = true;
                 options.Events = new OpenIdConnectEvents
