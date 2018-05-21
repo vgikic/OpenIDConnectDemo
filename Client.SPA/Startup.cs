@@ -57,7 +57,7 @@ namespace Client.SPA
                 options.Authority =  Parties.AuthorityUrl; // Demo.IdentityProvider base url
                 options.RequireHttpsMetadata = true;
                 options.GetClaimsFromUserInfoEndpoint = true;
-                options.ClientId = "SPA_APP";
+                options.ClientId = Parties.WebClientId;
                 options.ClientSecret = "password";
                 options.ResponseType = "code id_token";
 
@@ -68,7 +68,7 @@ namespace Client.SPA
                 options.Scope.Add("openid");
                 options.Scope.Add("profile");
                 options.Scope.Add(ClaimDeclaration.Roles);
-                options.Scope.Add("demoapi"); // For API Scope
+                options.Scope.Add( Parties.ApiName); // For API Scope
                 options.Scope.Add(ClaimDeclaration.Subscriptionlevel);
                 options.Scope.Add("offline_access"); // Needed by refresh token
 

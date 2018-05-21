@@ -51,7 +51,15 @@ namespace Demo.IdentityProvider
             return new List<ApiResource>
             {
                 // Role and subscriptionlevel claims are passed to API in Access Token
-                new ApiResource("demoapi","Demo API", new List<string>{ ClaimDeclaration.Role, ClaimDeclaration.Subscriptionlevel })
+                new ApiResource( Parties.ApiName,"Demo API", new List<string>{ ClaimDeclaration.Role, ClaimDeclaration.Subscriptionlevel })
+
+
+                /// <summary>
+                /// Api secret is used for reference tokens and it must be set in Demo.API
+                /// </summary>
+                //{
+                //    ApiSecrets = {new Secret("apisecret".Sha256()) } // 
+                //}
             };
         }
 
@@ -76,8 +84,8 @@ namespace Demo.IdentityProvider
             {
                 new Client
                 {
-                    ClientName ="Client.SPA",
-                    ClientId = "SPA_APP",
+                    ClientName = Parties.WebClientName,
+                    ClientId = Parties.WebClientId,
                     ClientSecrets = { new Secret("password".Sha256()) },
                     PostLogoutRedirectUris = {$"{Parties.WebClientUrl}/signout-callback-oidc" },
                     RedirectUris = {$"{Parties.WebClientUrl}/signin-oidc","" }, // signin-oidc is default route
@@ -86,7 +94,7 @@ namespace Demo.IdentityProvider
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.Profile,
                         ClaimDeclaration.Roles,
-                        "demoapi",
+                        Parties.ApiName,
                         ClaimDeclaration.Subscriptionlevel
                     },
 
@@ -107,6 +115,13 @@ namespace Demo.IdentityProvider
                     UpdateAccessTokenClaimsOnRefresh = true,
                     AllowOfflineAccess = true, // Must be set to true
 
+
+                    
+                    /// <summary>
+                    ///  Example of reference token
+                    ///  Secret must be defined at API resource and Demo.API startup
+                    /// </summary>
+                   //  AccessTokenType = AccessTokenType.Reference,
 
                     AllowedGrantTypes = GrantTypes.Hybrid
                 }

@@ -44,7 +44,8 @@ namespace Demo.API
                 {
                     options.Authority = Parties.AuthorityUrl; // Identity Provider
                     options.RequireHttpsMetadata = true;
-                    options.ApiName = "demoapi";
+                    options.ApiName = Parties.ApiName;
+                    // options.ApiSecret = "apisecret"; // Used for reference tokens
                 });
 
         }

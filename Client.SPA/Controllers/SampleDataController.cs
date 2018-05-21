@@ -27,9 +27,33 @@ namespace Client.SPA.Controllers
             return Ok(5);
         }
 
+ 
         [HttpGet("[action]")]
         public async Task Logout()
         {
+
+            /// <summary>
+            /// Reference and refresh token invalidation exampele
+            /// Only works if other refresh token configuration in API and IDP is set up properly
+            /// </summary>
+            //var discoveryClient = await DiscoveryClient.GetAsync(Parties.AuthorityUrl);
+            //var revocationClient = new TokenRevocationClient(discoveryClient.RevocationEndpoint, Parties.WebClientId, "password");
+            //var accessTokenToRevoke = await HttpContext.GetTokenAsync(OpenIdConnectParameterNames.AccessToken);
+            //if (!string.IsNullOrEmpty(accessTokenToRevoke))
+            //{
+            //    var response = await revocationClient.RevokeAccessTokenAsync(accessTokenToRevoke);
+            //    if (response.IsError)
+            //        throw new Exception("Problem while revoking access token", response.Exception);
+            //}
+            //var refreshTokenToRevoke = await HttpContext.GetTokenAsync(OpenIdConnectParameterNames.RefreshToken);
+            //if (!string.IsNullOrEmpty(refreshTokenToRevoke))
+            //{
+            //    var response = await revocationClient.RevokeRefreshTokenAsync(refreshTokenToRevoke);
+            //    if (response.IsError)
+            //        throw new Exception("Problem while revoking refresh token", response.Exception);
+            //}
+
+
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             await HttpContext.SignOutAsync("oidc");
         }
