@@ -38,7 +38,6 @@ namespace Client.SPA
 
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
-
             services.AddAuthentication(options =>
             {
                 options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
@@ -54,7 +53,7 @@ namespace Client.SPA
             .AddOpenIdConnect("oidc", options =>
             {
                 options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                options.Authority =  Parties.AuthorityUrl; // Demo.IdentityProvider base url
+                options.Authority = Parties.AuthorityUrl; // Demo.IdentityProvider base url
                 options.RequireHttpsMetadata = true;
                 options.GetClaimsFromUserInfoEndpoint = true;
                 options.ClientId = Parties.WebClientId;
@@ -68,7 +67,7 @@ namespace Client.SPA
                 options.Scope.Add("openid");
                 options.Scope.Add("profile");
                 options.Scope.Add(ClaimDeclaration.Roles);
-                options.Scope.Add( Parties.ApiName); // For API Scope
+                options.Scope.Add(Parties.ApiName); // For API Scope
                 options.Scope.Add(ClaimDeclaration.Subscriptionlevel);
                 options.Scope.Add("offline_access"); // Needed by refresh token
 

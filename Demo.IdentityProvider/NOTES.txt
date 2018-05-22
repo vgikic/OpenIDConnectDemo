@@ -1,4 +1,6 @@
-﻿#### Nuget packages:
+﻿http://docs.identityserver.io/en/release/quickstarts/8_entity_framework.html
+
+#### Nuget packages:
 	
 	- IdentityServer4
 
@@ -9,3 +11,16 @@
 
 #### Enable SSL
 
+AccountController needs to be updated so it does not use Test user store
+
+## EF Setup
+   - Manually create UserStoreDbContext
+   - Manually create Database, add connection string
+   - Create ApplicationUser
+   - dotnet ef migrations add Initial --context UserStoreDbContext
+   - dotnet ef database update --context UserStoreDbContext
+
+   ###These two commands generate Data/Migrations/IdentityServer/ CofigurationDb and PersistedGrantDb###
+
+   dotnet ef migrations add InitialIdentityServerPersistedGrantDbMigration -c PersistedGrantDbContext -o Data/Migrations/IdentityServer/PersistedGrantDb
+   dotnet ef migrations add InitialIdentityServerConfigurationDbMigration -c ConfigurationDbContext -o Data/Migrations/IdentityServer/ConfigurationDb
