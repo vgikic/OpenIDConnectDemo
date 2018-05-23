@@ -98,6 +98,8 @@ namespace Demo.IdentityProvider
                         ClaimDeclaration.Subscriptionlevel
                     },
 
+                    // Shows consent screen with list of 
+                    RequireConsent = false,
 
 
                     /// <summary>
@@ -114,7 +116,6 @@ namespace Demo.IdentityProvider
                     // Prevents outdated claims when access token is updated (by default claims dont change on access token update)
                     UpdateAccessTokenClaimsOnRefresh = true,
                     AllowOfflineAccess = true, // Must be set to true
-
 
                     
                     /// <summary>

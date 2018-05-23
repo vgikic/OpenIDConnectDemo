@@ -1,6 +1,6 @@
 import * as ko from 'knockout';
 import * as $ from 'jquery';
-import * as History from 'history';
+import { History } from 'history';
 import * as crossroads from 'crossroads';
 
 // This module configures crossroads.js, a routing library. If you prefer, you
@@ -12,20 +12,28 @@ import * as crossroads from 'crossroads';
 // Knockout that requires or even knows about this technique. It's just one of
 // many possible ways of setting up client-side routes.
 export class Router {
-    public currentRoute = ko.observable<Route>({});
+    public currentRoute = ko.observable<Route>();
     private disposeHistory: () => void;
     private clickEventListener: EventListener;
 
-    constructor(private history: History.History, routes: Route[], basename: string) {
+    constructor(
+        private history: History,
+        basename: string,
+        routes: Route[],
+        onRouteChanged?: { (route: string): void },
+        onRouteNotFound?: { (route: string): void }) {
+
         // Reset and configure Crossroads so it matches routes and updates this.currentRoute
         crossroads.removeAllRoutes();
         crossroads.resetState();
+        (crossroads as any).ignoreState = true;
         (crossroads as any).normalizeFn = crossroads.NORM_AS_OBJECT;
         routes.forEach(route => {
-            crossroads.addRoute(route.url, (requestParams: any) => {
-                this.currentRoute(ko.utils.extend(requestParams, route.params));
-            });
+            crossroads.addRoute(route.url, (requestParams: any) => this.currentRoute(ko.utils.extend(route, requestParams) as Route));
         });
+
+        if (onRouteChanged) crossroads.routed.add(onRouteChanged);
+        if (onRouteNotFound) crossroads.bypassed.add(onRouteNotFound);
 
         // Make history.js watch for navigation and notify Crossroads
         this.disposeHistory = history.listen(location => crossroads.parse(location.pathname));
@@ -40,16 +48,19 @@ export class Router {
                 }
             }
         };
-        $(document).on('click', 'a', this.clickEventListener);
-
-        // Initialize Crossroads with starting location
-        crossroads.parse(history.location.pathname);
+        $(document).on('click', 'a', this.clickEventListener as any);
     }
 
-    public link(url: string): string {
-        return this.history.createHref({ pathname: url });
+    /**
+     * Initialize Crossroads with starting location
+     */
+    public start() {
+        crossroads.parse(this.history.location.pathname);
     }
 
+    /**
+     * unregisteres History listener and removes clickhandlers
+     */
     public dispose() {
         this.disposeHistory();
         $(document).off('click', 'a', this.clickEventListener as any);
@@ -57,6 +68,10 @@ export class Router {
 }
 
 export interface Route {
-    url?: string;
-    params?: any;
+    url: string;
+    component: string;
+    isActive: KnockoutObservable<boolean>;
+    glyph?: string;
+    text?: string;
+    visible?: boolean
 }

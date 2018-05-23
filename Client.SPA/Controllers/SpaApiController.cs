@@ -13,15 +13,11 @@ using System.Threading.Tasks;
 namespace Client.SPA.Controllers
 {
     [Route("api/[controller]")]
-    public class SampleDataController : BaseController
+    public class SpaApiController : BaseController
     {
         [HttpGet("[action]")]
-        public IActionResult WeatherForecasts()
+        public IActionResult GetClientSpaProtectedApiDataAsync()
         {
-            var isAdmin = User.HasClaim("role", "Admin");
-
-            if (!isAdmin)
-                return NotFound();
 
 
             return Ok(5);
@@ -29,7 +25,7 @@ namespace Client.SPA.Controllers
 
  
         [HttpGet("[action]")]
-        public async Task Logout()
+        public async Task LogoutAsync()
         {
 
             /// <summary>
@@ -58,8 +54,12 @@ namespace Client.SPA.Controllers
             await HttpContext.SignOutAsync("oidc");
         }
 
+        /// <summary>
+        /// Refreshes token expiration time.
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("[action]")]
-        public async Task<UserDto> RenewTokens()
+        public async Task<UserDto> RenewTokensAsync()
         {
             // get the metadata
             var discoveryClient = await DiscoveryClient.GetAsync(Parties.AuthorityUrl);
@@ -91,7 +91,7 @@ namespace Client.SPA.Controllers
                 return new UserDto
                 {
                     Token = tokenResult.AccessToken,
-                    TokenExpirationTime = expiresAt.ToUniversalTime().Ticks
+                    TokenRenewalTime = expiresAt.ToUniversalTime().Ticks
                 };
             }
             else

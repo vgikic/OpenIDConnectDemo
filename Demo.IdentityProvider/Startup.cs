@@ -74,7 +74,7 @@ namespace Demo.IdentityProvider
                     options.EnableTokenCleanup = true;
                     // options.TokenCleanupInterval = 15; // frequency in seconds to cleanup stale grants. 15 is useful during debugging
                 });
-
+            
             if (Environment.IsDevelopment())
             {
                 builder.AddDeveloperSigningCredential();
@@ -139,7 +139,6 @@ namespace Demo.IdentityProvider
                         {
                             UserName = user.Username
                         };
-
                         var result = userManager.CreateAsync(appUser, "Password123!").Result;
                         userManager.AddClaimsAsync(appUser, user.Claims).Wait();
                     }

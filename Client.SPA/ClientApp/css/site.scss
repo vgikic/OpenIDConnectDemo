@@ -1,8 +1,13 @@
-﻿@import "./_common";
+﻿@import "./_common.scss";
+@import "loader.scss";
+
 .well.portal-enter {
     margin-top: 125px;
 }
 .landingpage h2 {
     width: 80%;
     background-color:red;
+}
+body{
+  background-color:blue
 }

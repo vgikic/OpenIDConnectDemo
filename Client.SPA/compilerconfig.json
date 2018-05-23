@@ -10,5 +10,9 @@
   {
     "outputFile": "ClientApp/css/_variables.css",
     "inputFile": "ClientApp/css/_variables.scss"
+  },
+  {
+    "outputFile": "ClientApp/css/loader.css",
+    "inputFile": "ClientApp/css/loader.scss"
   }
 ]

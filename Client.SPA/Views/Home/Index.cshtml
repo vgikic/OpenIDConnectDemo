@@ -5,11 +5,14 @@
 @section scripts {
     <script>
         window.User = {
+            Id: '@Model.Id',
             Token: '@Model.Token',
-            TokenExpirationTime: '@Model.TokenExpirationTime'
+            TokenRenewalTime: '@Model.TokenRenewalTime',
+            TokenExpirationTime: '@Model.TokenRenewalTime',
+            GivenName: '@Model.GivenName',
+            FamilyName: '@Model.FamilyName',
+            Roles: @Json.Serialize(Model.Roles)
         }
     </script>
-
-    <script>window.apiAccessToken = '@Model.Token'</script>
     <script src="~/dist/main.js" asp-append-version="true"></script>
 }

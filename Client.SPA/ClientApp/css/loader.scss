@@ -1,0 +1,287 @@
+﻿//** Spinner Area**//
+$modal-content-bg: #fff !default;
+$modal-backdrop-opacity: 1 !default;
+
+@mixin opacity($opacity) {
+    opacity: $opacity;
+    // IE8 filter
+    $opacity-ie: ($opacity * 100);
+    filter: alpha(opacity=$opacity-ie);
+}
+
+@mixin transform-origin($origin) {
+    -webkit-transform-origin: $origin;
+    -moz-transform-origin: $origin;
+    -ms-transform-origin: $origin; // IE9 only
+    transform-origin: $origin;
+}
+
+@mixin flex() {
+    display: -webkit-flex;
+    display: -moz-flex;
+    display: -ms-flexbox;
+    display: flex;
+}
+
+@mixin flex-direction($val) {
+    -webkit-flex-direction: $val;
+    -moz-flex-direction: $val;
+    -ms-flex-direction: $val;
+    flex-direction: $val;
+}
+
+@mixin flex-align-items($val) {
+    @if $val == flex-start {
+        -webkit-box-align: start;
+        -ms-flex-align: start;
+    }
+    @else if $val == flex-end {
+        -webkit-box-align: end;
+        -ms-flex-align: end;
+    }
+    @else {
+        -webkit-box-align: $val;
+        -ms-flex-align: $val;
+    }
+
+    -webkit-align-items: $val;
+    -moz-align-items: $val;
+    align-items: $val;
+}
+
+@mixin flex-justify-content($val) {
+    @if $val == flex-start {
+        -webkit-box-pack: start;
+        -ms-flex-pack: start;
+    }
+    @else if $val == flex-end {
+        -webkit-box-pack: end;
+        -ms-flex-pack: end;
+    }
+    @else if $val == space-between {
+        -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+    }
+    @else if $val == space-around {
+        -ms-flex-pack: distribute;
+    }
+    @else {
+        -webkit-box-pack: $val;
+        -ms-flex-pack: $val;
+    }
+
+    -webkit-justify-content: $val;
+    -moz-justify-content: $val;
+    justify-content: $val;
+}
+
+@mixin transition($transition...) {
+    -webkit-transition: $transition;
+    -o-transition: $transition;
+    transition: $transition;
+}
+// Transform
+@mixin transform($val) {
+    -webkit-transform: #{$val};
+    -moz-transform: #{$val};
+    -ms-transform: #{$val};
+    -o-transform: #{$val};
+    transform: #{$val};
+}
+// Animation
+@mixin animation($val) {
+    -webkit-animation: #{$val};
+    -moz-animation: #{$val};
+    -o-animation: #{$val};
+    animation: #{$val};
+}
+
+$modal-content-bg: #fff !default;
+$modal-backdrop-opacity: 1 !default;
+$brand-primary: darken(#428bca, 6.5%) !default; // #337ab7
+// Loader
+.main-loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 100%;
+    z-index: 9000000;
+    padding: 0;
+    @include opacity(0);
+    background-color: rgba($modal-content-bg, $modal-backdrop-opacity) !important;
+    overflow: hidden;
+    @include transform-origin(center);
+    @include flex();
+    @include flex-direction(column);
+    @include flex-align-items(center);
+    @include flex-justify-content(center);
+    @include transition(opacity 0.4s ease, width 0s linear 0.4s, transform 0.4s ease 0s, filter 0.4s ease 0s);
+
+    &.active,
+    &.visible {
+        @include opacity(1);
+        width: 100%;
+        @include transition(opacity 0.4s ease, width 0s linear 0s, transform 0.4s ease 0s, filter 0.4s ease 0s);
+
+        .main-loader-content {
+            @include opacity(1);
+            @include transition(opacity 0.3s ease 0.2s, transform 0.3s ease 0.2s, border 0.4s ease 0s);
+            @include transform("translateY(0)");
+
+            .main-loader-circle {
+                &:first-child {
+                    @include animation("rotationClockWise 1s linear infinite");
+                }
+
+                &:nth-child(2) {
+                    @include animation("rotationClockWise 0.9s linear infinite");
+                }
+
+                &:last-child {
+                    @include animation("rotationClockWise 0.8s linear infinite");
+                }
+            }
+        }
+    }
+
+    .main-loader-content {
+        position: relative;
+        @include opacity(0);
+        @include transition(opacity 0.3s ease 0s, transform 0.3s ease 0s, border 0.4s ease 0s);
+        @include transform-origin(center);
+        @include transform("translateY(-50px)");
+
+        .main-loader-object {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            @include transition(all 0.3s ease);
+            @include transform-origin(center);
+            @include transform("rotate(45deg)");
+        }
+
+        .main-loader-circle {
+            position: absolute;
+            border-radius: 50%;
+            border-width: 3px;
+            border-style: solid;
+            @include transform-origin(center);
+
+            &:first-child {
+                width: 100%;
+                height: 100%;
+                top: 0;
+                left: 0;
+                border-top-color: rgba($brand-primary, 0.6);
+                border-bottom-color: transparent;
+                border-left-color: transparent;
+                border-right-color: transparent;
+            }
+
+            &:nth-child(2) {
+                width: 80%;
+                height: 80%;
+                top: 10%;
+                left: 10%;
+                border-top-color: transparent;
+                border-bottom-color: transparent;
+                border-left-color: rgba($brand-primary, 0.8);
+                border-right-color: transparent;
+            }
+
+            &:last-child {
+                width: 60%;
+                height: 60%;
+                top: 20%;
+                left: 20%;
+                border-top-color: transparent;
+                border-bottom-color: transparent;
+                border-left-color: transparent;
+                border-right-color: rgba($brand-primary, 1);
+            }
+        }
+    }
+}
+
+// Clockwise animation
+@-webkit-keyframes rotationClockWise {
+    from {
+        @include transform("rotate(0deg)");
+    }
+
+    to {
+        @include transform("rotate(360deg)");
+    }
+}
+
+@-moz-keyframes rotationClockWise {
+    from {
+        @include transform("rotate(0deg)");
+    }
+
+    to {
+        @include transform("rotate(360deg)");
+    }
+}
+
+@-o-keyframes rotationClockWise {
+    from {
+        @include transform("rotate(0deg)");
+    }
+
+    to {
+        @include transform("rotate(360deg)");
+    }
+}
+
+@keyframes rotationClockWise {
+    from {
+        @include transform("rotate(0deg)");
+    }
+
+    to {
+        @include transform("rotate(360deg)");
+    }
+}
+
+// Counter-Clockwise animation
+@-webkit-keyframes rotationCounterClockWise {
+    from {
+        @include transform("rotate(0deg)");
+    }
+
+    to {
+        @include transform("rotate(-360deg)");
+    }
+}
+
+@-moz-keyframes rotationCounterClockWise {
+    from {
+        @include transform("rotate(0deg)");
+    }
+
+    to {
+        @include transform("rotate(-360deg)");
+    }
+}
+
+@-o-keyframes rotationCounterClockWise {
+    from {
+        @include transform("rotate(0deg)");
+    }
+
+    to {
+        @include transform("rotate(-360deg)");
+    }
+}
+
+@keyframes rotationCounterClockWise {
+    from {
+        @include transform("rotate(0deg)");
+    }
+
+    to {
+        @include transform("rotate(-360deg)");
+    }
+}

@@ -1,4 +1,6 @@
-﻿@using Shared;
+﻿@model Client.SPA.DTO.UserDto;
+
+@using Shared;
 
 <!DOCTYPE html>
 <html>
@@ -15,9 +17,34 @@
     </environment>
 </head>
 <body>
-    @RenderBody()
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <ul class="nav navbar-nav pull-right">
+                <li class="btn btn-danger" data-bind="click:logout">Logout</li>
+            </ul>
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
 
+        <!-- Loader -->
+        <div id="loaderMain" class="main-loader overlay">
+            <div class="main-loader-content">
+                <div class="main-loader-object">
+                    <div class="main-loader-circle"></div>
+                    <div class="main-loader-circle"></div>
+                    <div class="main-loader-circle"></div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>&copy; Clinet APP</p>
+        </footer>
+    </div>
     <script src="~/dist/vendor.js" asp-append-version="true"></script>
     @RenderSection("scripts", required: false)
 </body>
 </html>
+

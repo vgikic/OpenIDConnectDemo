@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using Client.SPA.Helpers;
 
 namespace Client.SPA.Controllers
 {
@@ -13,20 +14,7 @@ namespace Client.SPA.Controllers
         [Authorize]
         public async Task<IActionResult> Index()
         {
-            // Access token that is used for API authorization
-            // Needs to be set as Bearer token for each Ajax request
-            var access_token = await HttpContext.GetTokenAsync("access_token");
-
-            // Each ajax request needs to check if token is soot to be expired
-            // so renew token method can be called in time
-            var expires_at = await HttpContext.GetTokenAsync("expires_at");
-
-            var user = new UserDto
-            {
-                Token = access_token,
-                TokenExpirationTime = (DateTime.Parse(expires_at).AddSeconds(-120)).ToUniversalTime().Ticks
-            };
-
+            var user = await Helpers.Helpers.GetUserInfoAsync(User, HttpContext);
             return View(user);
         }
 

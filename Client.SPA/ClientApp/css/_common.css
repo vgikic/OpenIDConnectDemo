@@ -1,0 +1,57 @@
+﻿html {
+  margin: 0;
+  background-color: #EDEDED;
+  height: 100%;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; }
+
+body {
+  padding-bottom: 20px;
+  margin-top: 50px;
+  background-color: #EDEDED; }
+
+h1 {
+  font-size: 22px; }
+
+h2 {
+  font-size: 20px; }
+
+h3 {
+  font-size: 18px; }
+
+a {
+  color: #2a2a2a; }
+
+a:focus, a:hover {
+  color: #2a2a2a;
+  text-decoration: underline; }
+
+/* Highlighting rules for nav menu items, brand and li styling */
+.navbar li a {
+  color: #2a2a2a;
+  text-decoration: none; }
+
+.navbar li a.active,
+.navbar li a.active:hover,
+.navbar li a.active:focus {
+  background-color: #EDEDED;
+  color: #2a2a2a; }
+
+a.navbar-brand {
+  color: #1b1b1b; }
+
+ul.nav.navbar-nav > li {
+  margin-top: 1px;
+  height: 49px; }
+
+footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: #1b1b1b;
+  color: white;
+  height: 30px;
+  z-index: 999; }
+  footer p {
+    margin-top: 5px; }
+

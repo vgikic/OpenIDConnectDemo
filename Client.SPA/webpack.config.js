@@ -21,7 +21,8 @@ module.exports = (env) => {
                 { test: /\.html$/, use: 'raw-loader' },
                 { test: /\.css$/, use: isDevBuild ? ['style-loader', 'css-loader'] : ExtractTextPlugin.extract({ use: 'css-loader?minimize' }) },
                 { test: /\.scss$/, include: /ClientApp/, use: isDevBuild ? [ 'style-loader', 'css-loader', 'sass-loader' ] : ExtractTextPlugin.extract({ use: ['css-loader?minimize', 'sass-loader'] }) },
-                { test: /\.(png|jpg|jpeg|gif|svg)$/, use: 'url-loader?limit=25000' }
+                { test: /\.(png|jpg|jpeg|gif|svg)$/, use: 'url-loader?limit=25000' },
+                { test: /\.woff2?$|\.ttf$|\.eot$/, use: "file-loader" },
             ]
         },
         plugins: [

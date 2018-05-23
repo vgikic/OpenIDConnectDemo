@@ -1,26 +1,25 @@
-import './css/site.scss';
 import 'bootstrap';
 import * as ko from 'knockout';
-import { createBrowserHistory } from 'history';
 import './webpack-component-loader';
+
+import * as bootstrap from "bootstrap";
+import './css/site.scss';
+
+import { createBrowserHistory } from 'history';
 import AppRootComponent from './components/app-root/app-root';
-import fetchHelper from './fetchHelper';
+import { vm } from "./main-vm";
 
-var baseUrl = (window as any).baseUrl = document.getElementsByTagName('base')[0].getAttribute('href');
-var baseApiUrl = (window as any).baseApiUrl = document.getElementsByTagName('baseApiUrl')[0].getAttribute('href');
-fetchHelper.API_ACCESS_TOKEN = (window as any).apiAccessToken;
-const basename = baseUrl.substring(0, baseUrl.length - 1); // History component needs no trailing slash
+//import fetchHelper from './fetchHelper';
 
-
-var dt = '2018-05-21T07:35:45.0000000+00:00';
-var expiration = new Date(new Date(dt).setSeconds(-60));
+//var baseUrl = (window as any).baseUrl = document.getElementsByTagName('base')[0].getAttribute('href');
+//var baseApiUrl = (window as any).baseApiUrl = document.getElementsByTagName('baseApiUrl')[0].getAttribute('href');
+//fetchHelper.API_ACCESS_TOKEN = (window as any).apiAccessToken;
+//const basename = baseUrl.substring(0, baseUrl.length - 1); // History component needs no trailing slash
 
 
-// Load and register the <app-root> component
 ko.components.register('app-root', AppRootComponent);
+ko.applyBindings(vm);
 
-// Tell Knockout to start up an instance of your application
-ko.applyBindings({ history: createBrowserHistory({ basename }), basename });
 
 // Basic hot reloading support. Automatically reloads and restarts the Knockout app each time
 // you modify source files. This will not preserve any application state other than the URL.
